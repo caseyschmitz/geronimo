@@ -1,0 +1,10 @@
+# Version of the application
+version: 0.1.0
+# Name of the application
+name: geronimo
+# A short description of the application
+description: A home network speed and latency monitor.
+# List of application maintainers with name and email for each
+maintainers:
+  - name: casey
+    email: caseyschmitz0@gmail.com
