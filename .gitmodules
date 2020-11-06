@@ -1,0 +1,6 @@
+[submodule "geronimo/frontend"]
+	path = geronimo/frontend
+	url = https://github.com/caseyschmitz/geronimo-ui
+[submodule "geronimo/backend"]
+	path = geronimo/backend
+	url = https://github.com/caseyschmitz/geronimo-api
