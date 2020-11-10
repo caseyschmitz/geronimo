@@ -11,7 +11,7 @@ docker pull caseyschmitz0/geronimo:latest
 
 From source:
 ```
-git clone https://github.com/caseyschmitz/geronimo.git
+git clone https://github.com/caseyschmitz/geronimo.git --recurse-submodules
 ```
 
 ## Getting Started
