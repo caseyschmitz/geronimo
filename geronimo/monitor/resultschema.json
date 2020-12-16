@@ -1,0 +1,34 @@
+{
+    "bytes_received": 126875260,
+    "bytes_sent": 13475840,
+    "client": {
+        "country": "US",
+        "ip": "72.206.126.212",
+        "isp": "Cox Communications",
+        "ispdlavg": "0",
+        "isprating": "3.7",
+        "ispulavg": "0",
+        "lat": "41.294",
+        "loggedin": "0",
+        "lon": "-96.0541",
+        "rating": "0"
+    },
+    "download": 101343182.81881242,
+    "ping": 17.614,
+    "server": {
+        "cc": "US",
+        "country": "United States",
+        "d": 6.661776219663871,
+        "host": "speedtest.rd.om.cox.net:8080",
+        "id": "16621",
+        "lat": "41.2500",
+        "latency": 17.614,
+        "lon": "-96.0000",
+        "name": "Omaha, NE",
+        "sponsor": "Cox - Omaha",
+        "url": "http://speedtest.rd.om.cox.net:8080/speedtest/upload.php"
+    },
+    "share": "http://www.speedtest.net/result/10411280454.png",
+    "timestamp": "2020-11-13T01:07:06.672285Z",
+    "upload": 10681526.180805035
+}
