@@ -35,6 +35,7 @@ WORKDIR $APP_HOME
 #RUN --from=builder /usr/src/app/requirements.txt .
 
 COPY requirements.txt $APP_HOME
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 #COPY requirements.txt $APP_HOME

@@ -1,10 +1,10 @@
-version: "3.6"
+version: "3.7"
 services:
   nginx:
     image: nginx:latest
     restart: always
     ports:
-      - "80:8000"
+      - "8888:8000"
     volumes:
       - ./geronimo/backend:/home/geronimo/backend
       - ./prod/nginx:/etc/nginx/conf.d
