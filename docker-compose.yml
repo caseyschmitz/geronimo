@@ -1,22 +1,70 @@
 version: "3.7"
+networks:
+  geronimo:
+    external:
+      name: geronimo
+  t2_proxy:
+    external:
+      name: t2_proxy
+  default:
+    driver: bridge
+  socket_proxy:
+    external:
+      name: socket_proxy
+
 services:
   nginx:
-    image: nginx:latest
+    build: ./geronimo
+    #image: nginx:latest
     restart: always
-    ports:
-      - "8888:8000"
+    networks:
+      - t2_proxy
+      - socket_proxy
+      - geronimo
+    #ports:
+    #  - "8888:8000"
     volumes:
       - ./geronimo/backend:/home/geronimo/backend
-      - ./prod/nginx:/etc/nginx/conf.d
-      - ./prod/logs:/var/logs/nginx
-    depends_on: 
+      - ./geronimo/nginx/nginx:/etc/nginx/conf.d
+      - ./geronimo/nginx/logs:/var/logs/nginx
+      - ui-build:/home/geronimo/frontend
+    environment:
+      - DOCKER_HOST=tcp://socket-proxy:2375
+    depends_on:
+      - api
+    labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.geronimo-rtr.entrypoints=https"
+      - "traefik.http.routers.geronimo-rtr.rule=Host(`geronimo.robar.io`)"
+      - "traefik.http.routers.geronimo-rtr.tls=true"
+      ## Middlewares
+      - "traefik.http.routers.geronimo-rtr.middlewares=chain-authelia@file"
+      - "traefik.http.middlewares.geronimo-headers.headers.sslhost=geronimo.robar.io"
+      - "traefik.http.middlewares.geronimo-headers.headers.sslforcehost=true"
+      ## HTTP Services
+      - "traefik.http.routers.geronimo-rtr.service=geronimo-svc"
+      - "traefik.http.services.geronimo-svc.loadbalancer.server.port=8000"
+  ui:
+    build: ./geronimo/frontend
+    restart: always
+    command: ember serve
+    volumes:
+      #- ./geronimo/frontend:/home/geronimo/frontend
+      - ui-build:/home/geronimo/frontend
+    expose:
+      - 4200
+    depends_on:
       - api
   api:
-    build: .
+    build: ./geronimo/backend
     restart: always
-    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py migrate && gunicorn django_backend.wsgi -w 8 -t 300 -b 0.0.0.0:8000"
+    command: bash -c "python3 manage.py collectstatic --noinput --clear && python3 manage.py makemigrations && python3 manage.py migrate && gunicorn django_backend.wsgi -w 8 -t 300 -b 0.0.0.0:8000"
     volumes:
       - ./geronimo/backend:/home/geronimo/backend
+    networks:
+      - geronimo
+      - t2_proxy
     expose:
       - 8000
     env_file:
@@ -26,6 +74,8 @@ services:
   db:
     image: postgres
     restart: always
+    networks:
+      - geronimo
     environment: 
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
@@ -39,3 +89,4 @@ volumes:
   postgres-config:
   postgres-data:
   postgres-logs:
+  ui-build:

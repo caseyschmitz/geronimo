@@ -14,6 +14,14 @@ From source:
 git clone https://github.com/caseyschmitz/geronimo.git --recurse-submodules
 ```
 
+## Configuration
+Copy `.env.example.dev` and `.env.example.db`; rename them to `.env.dev` and `.env.db`, respectively.
+
+[Django recommends](https://docs.djangoproject.com/en/3.1/ref/settings/#secret-key) that you configure a *SECRET_KEY* for cryptographic signing. A key can be generated with the following command:
+```
+python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
+```
+
 ## Getting Started
 1. Run the application with `docker-compose`:
     ```
@@ -34,6 +42,12 @@ git clone https://github.com/caseyschmitz/geronimo.git --recurse-submodules
     ```
 
 4. By default, the application runs locally - navigate to http://localhost/geronimo in a web browser and login as the super-user created in step #3 to start executing ad-hoc and scheduled speedtests.
+
+
+### Troubleshooting
+If you're having trouble starting Docker due to `permission denied` errors, try adding your user account to the docker group. Explained [here](https://linuxhandbook.com/docker-permission-denied/#fix-2-running-docker-commands-without-sudo).
+
+If you are running Docker on Windows with WSL2, ensure your system is [properly configured](https://code.visualstudio.com/blogs/2020/03/02/docker-in-wsl2).
 
 ## License
 
